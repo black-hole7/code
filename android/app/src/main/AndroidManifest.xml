@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
     xmlns:tools="http://schemas.android.com/tools"
+=======
+>>>>>>> c683613 (flutter app)
     package="com.gim.gim">
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
@@ -7,6 +10,10 @@
    <application
         android:label="اخدم بلدك"
         android:name="${applicationName}"
+<<<<<<< HEAD
+=======
+        android:label="pick_images_camera_and_gallery"
+>>>>>>> c683613 (flutter app)
         android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher">
 
