@@ -2,14 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_glow/flutter_glow.dart';
 
-class myHome extends StatefulWidget {
-  const myHome({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
   _myHomeState createState() => _myHomeState();
 }
 
-class _myHomeState extends State<myHome> {
+class _myHomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -69,12 +69,12 @@ class _myHomeState extends State<myHome> {
                         children: [
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                maximumSize: Size(
-                                    MediaQuery.of(context).size.width / 1.7,
-                                    50.0), //230, 50
-                                minimumSize: Size(
-                                    MediaQuery.of(context).size.width / 1.7,
-                                    50.0), //230, 50
+                                // maximumSize: Size(
+                                //     MediaQuery.of(context).size.width / 1.7,
+                                //     50.0), //230, 50
+                                // minimumSize: Size(
+                                //     MediaQuery.of(context).size.width / 1.7,
+                                //     50.0), //230, 50
                                 primary: Color.fromARGB(255, 81, 13, 177),
                                 shape: StadiumBorder(),
                               ),
@@ -139,12 +139,12 @@ class _myHomeState extends State<myHome> {
                         children: [
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                maximumSize: Size(
-                                    MediaQuery.of(context).size.width / 1.22,
-                                    70.0),
-                                minimumSize: Size(
-                                    MediaQuery.of(context).size.width / 1.22,
-                                    70.0),
+                                // maximumSize: Size(
+                                //     MediaQuery.of(context).size.width / 1.22,
+                                //     70.0),
+                                // minimumSize: Size(
+                                //     MediaQuery.of(context).size.width / 1.22,
+                                //     70.0),
                                 primary: Color.fromARGB(161, 214, 4, 4),
                                 shape: StadiumBorder(),
                               ),
@@ -158,7 +158,7 @@ class _myHomeState extends State<myHome> {
                                 children: [
                                   Text(
                                     'Apply Your Report  ',
-                                    style: TextStyle(fontSize: 30.0),
+                                    style: TextStyle(fontSize: 25.0),
                                   ),
                                   Icon(
                                     Icons.send_sharp,
@@ -218,7 +218,7 @@ class _myHomeState extends State<myHome> {
 
 showAlertDialog(BuildContext context) {
   // Create button
-  Widget okButton = FlatButton(
+  Widget okButton = TextButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.of(context).pop();
@@ -246,7 +246,7 @@ showAlertDialog(BuildContext context) {
 }
 
 showAlertDialog2(BuildContext context) {
-  Widget okButton = FlatButton(
+  Widget okButton = TextButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.of(context).pop();

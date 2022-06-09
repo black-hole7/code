@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:gim/auth/auth.dart';
+
+import 'controllers/authController.dart';
 
 class myLogin extends StatefulWidget {
   const myLogin({Key? key}) : super(key: key);
@@ -11,7 +14,8 @@ class myLogin extends StatefulWidget {
 }
 
 class _myLoginState extends State<myLogin> {
-  TextEditingController phoneNumber = TextEditingController();
+
+  AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +61,7 @@ class _myLoginState extends State<myLogin> {
                   child: Column(
                     children: [
                       TextField(
-                        controller: phoneNumber,
+                        controller: authController.phoneNumber,
                         decoration: InputDecoration(
                           labelText: 'Your Phone',
                           hintText: "07XXXXXXXX",
@@ -73,17 +77,17 @@ class _myLoginState extends State<myLogin> {
                         ],
                       ),
                       SizedBox(height: 30.0),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          fillColor: Colors.grey.shade100,
-                          filled: true,
-                          // hintText: 'Password',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                      ),
+                      // TextField(
+                      //   decoration: InputDecoration(
+                      //     labelText: 'Password',
+                      //     fillColor: Colors.grey.shade100,
+                      //     filled: true,
+                      //     // hintText: 'Password',
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(10.0),
+                      //     ),
+                      //   ),
+                      // ),
                       SizedBox(height: 30.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -96,8 +100,7 @@ class _myLoginState extends State<myLogin> {
                                 shape: StadiumBorder(),
                               ),
                               onPressed: () {
-                                Auth.loginUser(
-                                    phoneController: phoneNumber.text);
+                               authController.loginUser();
                               },
                               child: Row(
                                 mainAxisAlignment:

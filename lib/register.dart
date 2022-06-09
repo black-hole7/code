@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+
+import 'controllers/authController.dart';
 
 class myRegister extends StatefulWidget {
   const myRegister({Key? key}) : super(key: key);
@@ -9,6 +12,9 @@ class myRegister extends StatefulWidget {
 }
 
 class _myRegisterState extends State<myRegister> {
+
+  AuthController authController = Get.put(AuthController());
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -59,8 +65,10 @@ class _myRegisterState extends State<myRegister> {
                   ),
                   child: Column(
                     children: [
+
+                      ///full name
                       TextField(
-                        //controller: nameController,
+                        controller: authController.fullName,
                         autocorrect: true,
                         decoration: InputDecoration(
                           labelText: 'Name',
@@ -75,12 +83,14 @@ class _myRegisterState extends State<myRegister> {
                         ),
                       ),
                       SizedBox(height: 35.0),
+                      ///National Number
                       TextField(
+                        controller: authController.nationalNumber,
                         maxLength: 11,
                         decoration: InputDecoration(
                           fillColor: Color.fromRGBO(243, 242, 245, 0.471),
                           filled: true,
-                          labelText: 'National Numbre',
+                          labelText: 'National Number',
                           hintText: 'Enter Your ID Number',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -95,13 +105,15 @@ class _myRegisterState extends State<myRegister> {
                         ],
                       ),
                       SizedBox(height: 15.0),
+                      ///phone number
                       TextField(
+                        controller: authController.phoneNumber,
                         maxLength: 10,
                         decoration: InputDecoration(
                           fillColor: Color.fromRGBO(243, 242, 245, 0.471),
                           filled: true,
                           labelText: 'Phone',
-                          hintText: '07XXXXXXXX',
+                          hintText: '7XXXXXXXX',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: const BorderSide(
@@ -115,32 +127,35 @@ class _myRegisterState extends State<myRegister> {
                         ],
                       ),
                       SizedBox(height: 15.0),
-                      TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the password';
-                          } else if (value.length <= 6) {
-                            return 'Password must be greator than 6 digits';
-                          }
-                        },
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          fillColor: Color.fromRGBO(243, 242, 245, 0.471),
-                          filled: true,
-                          labelText: 'Password',
-                          hintText: 'Capital & Small Letters, Digits, Symbols',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // TextFormField(
+                      //   validator: (value) {
+                      //     if (value == null || value.isEmpty) {
+                      //       return 'Please enter the password';
+                      //     } else if (value.length <= 6) {
+                      //       return 'Password must be greator than 6 digits';
+                      //     }
+                      //   },
+                      //   obscureText: true,
+                      //   decoration: InputDecoration(
+                      //     fillColor: Color.fromRGBO(243, 242, 245, 0.471),
+                      //     filled: true,
+                      //     labelText: 'Password',
+                      //     hintText: 'Capital & Small Letters, Digits, Symbols',
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(10.0),
+                      //       borderSide: const BorderSide(
+                      //         color: Colors.white,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       SizedBox(height: 30.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
+
+
+
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 maximumSize: const Size(170.0, 90.0),
@@ -148,7 +163,10 @@ class _myRegisterState extends State<myRegister> {
                                 primary: Colors.black,
                                 shape: const StadiumBorder(),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+
+                             //   authController.();
+                              },
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
