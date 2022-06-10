@@ -1,6 +1,10 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:flutter_glow/flutter_glow.dart';
+import 'package:get/get.dart';
+import 'package:gim/controllers/homeController.dart';
+import 'package:gim/order.dart';
+import 'package:gim/register.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -10,6 +14,10 @@ class Home extends StatefulWidget {
 }
 
 class _myHomeState extends State<Home> {
+
+  HomeController controller = Get.put(HomeController());
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -61,151 +69,161 @@ class _myHomeState extends State<Home> {
                     right: 35,
                     bottom: 5,
                   ),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 20.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                  child:  Column(
                         children: [
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                // maximumSize: Size(
-                                //     MediaQuery.of(context).size.width / 1.7,
-                                //     50.0), //230, 50
-                                // minimumSize: Size(
-                                //     MediaQuery.of(context).size.width / 1.7,
-                                //     50.0), //230, 50
-                                primary: Color.fromARGB(255, 81, 13, 177),
-                                shape: StadiumBorder(),
-                              ),
-                              onPressed: () {
-                                Navigator.pushNamed(context, 'register');
-                              },
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                //crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'New Registration ',
-                                    style: TextStyle(fontSize: 20.0),
-                                  ),
-                                  Icon(
-                                    Icons.app_registration,
-                                    color: Color.fromARGB(255, 124, 255, 189),
-                                  ),
-                                ],
-                              )),
-                        ],
-                      ),
-                      SizedBox(height: 10.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                maximumSize: Size(
-                                    MediaQuery.of(context).size.width / 3,
-                                    50.0), //130
-                                minimumSize: Size(
-                                    MediaQuery.of(context).size.width / 3,
-                                    50.0), //130
-                                primary: Color.fromARGB(255, 81, 13, 177),
-                                shape: StadiumBorder(),
-                              ),
-                              onPressed: () {
-                                Navigator.pushNamed(context, 'login');
-                              },
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                //crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Login',
-                                    style: TextStyle(fontSize: 20.0),
-                                  ),
-                                  Icon(
-                                    Icons.login,
-                                    color: Color.fromARGB(255, 124, 255, 189),
-                                  ),
-                                ],
-                              )),
-                        ],
-                      ),
-                      SizedBox(height: 60.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                // maximumSize: Size(
-                                //     MediaQuery.of(context).size.width / 1.22,
-                                //     70.0),
-                                // minimumSize: Size(
-                                //     MediaQuery.of(context).size.width / 1.22,
-                                //     70.0),
-                                primary: Color.fromARGB(161, 214, 4, 4),
-                                shape: StadiumBorder(),
-                              ),
-                              onPressed: () {
-                                Navigator.pushNamed(context, 'order');
-                              },
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                //crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Apply Your Report  ',
-                                    style: TextStyle(fontSize: 25.0),
-                                  ),
-                                  Icon(
-                                    Icons.send_sharp,
-                                    color: Color.fromARGB(255, 124, 255, 189),
-                                    size: 30.0,
-                                  ),
-                                ],
-                              )),
-                        ],
-                      ),
-                      SizedBox(height: 30.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextButton(
-                            //onPressed: () {
-                            //Navigator.pushNamed(context, 'instructions');
-                            onPressed: () {
-                              showAlertDialog(context);
-                            },
-                            child: Text(
-                              'Instructions',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 23.0,
-                                  fontWeight: FontWeight.w900),
-                            ),
+
+                          SizedBox(height: 20.0),
+
+                          Obx(
+                            () {
+                              return Visibility(
+                                visible: controller.notRegister.value,
+                                child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      // maximumSize: Size(
+                                      //     MediaQuery.of(context).size.width / 1.7,
+                                      //     50.0), //230, 50
+                                      // minimumSize: Size(
+                                      //     MediaQuery.of(context).size.width / 1.7,
+                                      //     50.0), //230, 50
+                                      primary: Color.fromARGB(255, 81, 13, 177),
+                                      shape: StadiumBorder(),
+                                    ),
+                                    onPressed: () {
+                                      Get.to(myRegister());
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 20),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        //crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'New Registration ',
+                                            style: TextStyle(fontSize: 20.0),
+                                          ),
+                                          Icon(
+                                            Icons.app_registration,
+                                            color: Color.fromARGB(255, 124, 255, 189),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              );
+                            }
                           ),
-                          TextButton(
-                            //onPressed: () {
-                            //Navigator.pushNamed(context, 'policies');
-                            onPressed: () {
-                              showAlertDialog2(context);
-                            },
-                            child: Text(
-                              'Policies',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 23.0,
-                                fontWeight: FontWeight.w900,
+                          SizedBox(height: 10.0),
+
+
+
+
+
+                          // ElevatedButton(
+                          //     style: ElevatedButton.styleFrom(
+                          //       maximumSize: Size(
+                          //           MediaQuery.of(context).size.width / 3,
+                          //           50.0), //130
+                          //       minimumSize: Size(
+                          //           MediaQuery.of(context).size.width / 3,
+                          //           50.0), //130
+                          //       primary: Color.fromARGB(255, 81, 13, 177),
+                          //       shape: StadiumBorder(),
+                          //     ),
+                          //     onPressed: () {
+                          //       Navigator.pushNamed(context, 'login');
+                          //     },
+                          //     child: Row(
+                          //       mainAxisAlignment:
+                          //           MainAxisAlignment.spaceBetween,
+                          //       //crossAxisAlignment: CrossAxisAlignment.center,
+                          //       children: [
+                          //         Text(
+                          //           'Login',
+                          //           style: TextStyle(fontSize: 20.0),
+                          //         ),
+                          //         Icon(
+                          //           Icons.login,
+                          //           color: Color.fromARGB(255, 124, 255, 189),
+                          //         ),
+                          //       ],
+                          //     )),
+                          SizedBox(height: 50.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    // maximumSize: Size(
+                                    //     MediaQuery.of(context).size.width / 1.22,
+                                    //     70.0),
+                                    // minimumSize: Size(
+                                    //     MediaQuery.of(context).size.width / 1.22,
+                                    //     70.0),
+                                    primary: Color.fromARGB(161, 214, 4, 4),
+                                    shape: StadiumBorder(),
+                                  ),
+                                  onPressed: () {
+                                   Get.to(myOrder(isReg: controller.isNotRegs.value));
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 20),                                child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      //crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Apply Your Report  ',
+                                          style: TextStyle(fontSize: 25.0),
+                                        ),
+                                        Icon(
+                                          Icons.send_sharp,
+                                          color: Color.fromARGB(255, 124, 255, 189),
+                                          size: 30.0,
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ],
+                          ),
+                          SizedBox(height: 30.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextButton(
+                                //onPressed: () {
+                                //Navigator.pushNamed(context, 'instructions');
+                                onPressed: () {
+                                  showAlertDialog(context);
+                                },
+                                child: Text(
+                                  'Instructions',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 23.0,
+                                      fontWeight: FontWeight.w900),
+                                ),
                               ),
-                            ),
+                              TextButton(
+                                //onPressed: () {
+                                //Navigator.pushNamed(context, 'policies');
+                                onPressed: () {
+                                  showAlertDialog2(context);
+                                },
+                                child: Text(
+                                  'Policies',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 23.0,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
-                      ),
-                    ],
-                  ),
+                      )
+
                 ),
               ),
             ],

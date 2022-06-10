@@ -12,7 +12,9 @@ import 'package:flutter/widgets.dart';
 import 'package:camera/camera.dart';
 
 class myOrder extends StatefulWidget {
-  const myOrder({Key? key}) : super(key: key);
+
+  final bool isReg;
+  const myOrder({Key? key , required this.isReg}) : super(key: key);
   @override
   _myOrderState createState() => _myOrderState();
 }
@@ -39,18 +41,16 @@ class _myOrderState extends State<myOrder> {
         ),
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          body: Obx(
-            () {
-              return Stack(
+          body: Stack(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                           top: 30.0,
                         ),
-                        child: Text(
+                        child: const Text(
                           'Report filling form',
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -69,25 +69,54 @@ class _myOrderState extends State<myOrder> {
                     ],
                   ),
                   SingleChildScrollView(
-                    child: Container(
-                      padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.1,
-                        left: 35,
-                        right: 35,
-                      ),
+                    child: Padding(
+                      padding:  EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.1,
+                  left: 30,
+                  right: 30,
+                  ),
                       child: Column(
                         children: [
                           SizedBox(height: 15.0),
+                          Visibility(
+                             visible: widget.isReg,
+                            child: TextField(
+                              controller: _order.phone,
+                              maxLength: 10,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(6),
+                                //contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
+                                fillColor: Color.fromRGBO(243, 242, 245, 0.471),
+                                filled: true,
+                                labelText: 'Your Phone',
+                                hintText: '07XXXXXXXX',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                    color: Color.fromARGB(255, 226, 12, 12),
+                                  ),
+                                ),
+                              ),
+                              keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                            ),
+                          ),
+
+
                           TextField(
-                            controller: _order.phone,
-                            maxLength: 10,
+                            controller: _order.note,
+                            maxLength: 500,
+                            maxLines: 10,
+                            minLines: 2,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(6),
                               //contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
                               fillColor: Color.fromRGBO(243, 242, 245, 0.471),
                               filled: true,
-                              labelText: 'Your Phone',
-                              hintText: '07XXXXXXXX',
+                              labelText: 'Note',
+                              hintText: 'Notes',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 borderSide: const BorderSide(
@@ -95,10 +124,8 @@ class _myOrderState extends State<myOrder> {
                                 ),
                               ),
                             ),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
+                            keyboardType: TextInputType.text,
+
                           ),
                           SizedBox(height: 0.0),
                           Row(
@@ -108,7 +135,7 @@ class _myOrderState extends State<myOrder> {
                                 child: DropdownButton2(
                                   isExpanded: true,
                                   hint: Row(
-                                    children: [
+                                    children: const [
                                       Icon(
                                         Icons.list,
                                         size: 22,
@@ -148,7 +175,7 @@ class _myOrderState extends State<myOrder> {
                                   onChanged: (value) {
                                     setState(() {
                                       _order.selectedValue = value as String;
-                                      _order.checkFull();
+                                      _order.checkFull(widget.isReg);
                                     });
                                   },
                                   icon: const Icon(
@@ -238,7 +265,7 @@ class _myOrderState extends State<myOrder> {
                                   onChanged: (value) {
                                     setState(() {
                                       _order.selectedValue2 = value as String;
-                                      _order.checkFull();
+                                      _order.checkFull(widget.isReg);
                                     });
                                   },
                                   icon: const Icon(
@@ -280,7 +307,10 @@ class _myOrderState extends State<myOrder> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 5.0),
+
+                        const  SizedBox(height: 5.0),
+
+
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 0.0, horizontal: 0.0),
@@ -290,14 +320,14 @@ class _myOrderState extends State<myOrder> {
                                     MediaQuery.of(context).size.width / 1.22, //322,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: _order.imagefiles?.length,
+                                  itemCount: _order.imagefiles.length,
                                   itemBuilder: (BuildContext context, int index) {
                                     return GestureDetector(
                                         onTap: (() {
                                           setState(() {
-                                            _order.imagefiles?.removeAt(index);
+                                            _order.imagefiles.removeAt(index);
                                             _order.count = (_order.count! - 1);
-                                            _order.checkFull();
+                                            _order.checkFull(widget.isReg);
                                           });
 
 
@@ -321,8 +351,11 @@ class _myOrderState extends State<myOrder> {
                                   if (_order.count! <= 2) {
 
 
-                                      _order.openImages();
-                                      _order.checkFull();
+                                      _order.openImages(ImageSource.gallery);
+                                      _order.checkFull(widget.isReg);
+                                      setState(() {
+
+                                      });
 
                                   } else {
                                     Fluttertoast.showToast(
@@ -349,8 +382,8 @@ class _myOrderState extends State<myOrder> {
                                 ),
                                 onPressed: () async {
                                   if (_order.count! <= 2) {
-                                    _order.loadCamera();
-                                    _order.checkFull();
+                                    _order.openImages(ImageSource.camera);
+                                    _order.checkFull(widget.isReg);
                                   } else {
                                     Fluttertoast.showToast(
                                         msg:
@@ -370,36 +403,7 @@ class _myOrderState extends State<myOrder> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Visibility(
-                                visible: _order.isFull.value,
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      //maximumSize: Size(320.0, 70.0),
-                                      //minimumSize: Size(320.0, 70.0),
-                                      primary: Color.fromARGB(161, 214, 4, 4),
-                                      shape: StadiumBorder(),
-                                    ),
-                                    onPressed: () {
 
-                                      _order.sendOrder();
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      //crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Send Now  ',
-                                          style: TextStyle(fontSize: 30.0),
-                                        ),
-                                        Icon(
-                                          Icons.send,
-                                          color: Color.fromARGB(255, 124, 255, 189),
-                                          size: 30.0,
-                                        ),
-                                      ],
-                                    )),
-                              ),
                             ],
                           ),
                         ],
@@ -407,8 +411,41 @@ class _myOrderState extends State<myOrder> {
                     ),
                   ),
                 ],
-              );
-            }
+              ),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButton:   Obx(
+                  () {
+                return Visibility(
+                  visible: _order.isFull.value,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        //maximumSize: Size(320.0, 70.0),
+                        //minimumSize: Size(320.0, 70.0),
+                        primary: Color.fromARGB(161, 214, 4, 4),
+                        shape: StadiumBorder(),
+                      ),
+                      onPressed: () {
+
+                        _order.sendOrder();
+                      },
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        //crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Send Now  ',
+                            style: TextStyle(fontSize: 30.0),
+                          ),
+                          Icon(
+                            Icons.send,
+                            color: Color.fromARGB(255, 124, 255, 189),
+                            size: 30.0,
+                          ),
+                        ],
+                      )),
+                );
+              }
           ),
         ),
       ),

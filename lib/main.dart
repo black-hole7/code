@@ -8,6 +8,9 @@ import 'package:gim/order.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
@@ -18,10 +21,9 @@ void main() async {
         'login': (context) => myLogin(),
         'register': (context) => myRegister(),
         'forgot': (context) => resetPassword(),
-        'order': (context) => myOrder(),
+
       },
     ),
   );
 
-  await Firebase.initializeApp();
 }

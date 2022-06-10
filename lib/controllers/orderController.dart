@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gim/controllers/authController.dart';
+import 'package:gim/controllers/homeController.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
@@ -19,6 +22,7 @@ class OrderController extends GetxController{
  // XFile? image; //for captured image
   int? count;
   TextEditingController phone = TextEditingController();
+  TextEditingController note = TextEditingController();
 
 
   final List<String> items_cnt = [
@@ -41,19 +45,30 @@ class OrderController extends GetxController{
   String? selectedValue;
   String? selectedValue2;
 
+
+  HomeController _controller =Get.put(HomeController());
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
 
     count = imagefiles.length;
+
+    savePhoneNumber();
+
+  }
+
+  savePhoneNumber()async{
+    if(!_controller.isNotRegs.value){
+      phone.text = (await FirebaseAuth.instance.currentUser?.phoneNumber)!;
+    }
   }
 
 
-
-  openImages() async {
+  openImages(source) async {
     try {
-      var pickedfiles = await imgpicker.pickImage(source: ImageSource.gallery);
+      var pickedfiles = await imgpicker.pickImage(source: source);
 
 
       if (pickedfiles != null) {
@@ -88,12 +103,14 @@ class OrderController extends GetxController{
   }
 
   RxBool isFull = false.obs;
-  checkFull() {
 
-      if (phone.text.isNotEmpty &&
+  checkFull( bool isRegs) async{
+
+
+    if (phone.text.isNotEmpty &&
           selectedValue!.isNotEmpty &&
           selectedValue2!.isNotEmpty &&
-          imagefiles!.length > 0) {
+          imagefiles.isNotEmpty) {
         isFull.value = true;
       } else {
         isFull.value = false;
@@ -147,29 +164,27 @@ class OrderController extends GetxController{
      "country" :selectedValue,
      "department": selectedValue2,
      "images" : images,
-     "note": "",
+     "note": note.text,
      "location" :"",
      "mac_address" :""
-   });
+   }).then((value) => Get.snackbar("Successfull", "Your Order Sent !",snackPosition: SnackPosition.BOTTOM));
 
 
-     //    task.then((valueT) {
-     //      valueT.ref.getDownloadURL().then((value) {
-     //        FirebaseFirestore.instance.collection('binsNotes')
-     //            .doc('${id}')
-     //            .set({
-     //          'adminName': _adminController.userName.value,
-     //          'id': '${id}',
-     //          'message': '${noteController.text}',
-     //          'date': DateTime.now().toIso8601String(),
-     //          'bin Number': '${qrCode.value}',
-     //          'image': '${value.toString()}',
-     //          'done': false
-     //        });
-     //
-     //
-     //
-     // }
 
+   }
+
+
+
+
+   verifyPhoneNumber(){
+
+    if(!_controller.isNotRegs.value){
+
+
+
+
+    }else{
+      sendOrder();
+    }
    }
 }

@@ -29,37 +29,18 @@ class _myRegisterState extends State<myRegister> {
         ),
         child: Scaffold(
           appBar: AppBar(
+            title: Text("REGISTER"),
               elevation: null,
               backgroundColor: Colors.transparent,
-              leading: TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, 'login');
-                },
-                child: Icon(
-                  Icons.arrow_back_ios_rounded,
-                  color: Colors.white,
-                ),
-              )),
+          ),
           backgroundColor: Colors.transparent,
           body: Stack(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'REGISTER\n NOW',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 40.0,
-                    ),
-                  ),
-                ],
-              ),
+
               SingleChildScrollView(
                 child: Container(
                   padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.2,
+                    top: MediaQuery.of(context).size.height * 0.05,
                     left: 35,
                     right: 35,
                   ),
@@ -127,28 +108,7 @@ class _myRegisterState extends State<myRegister> {
                         ],
                       ),
                       SizedBox(height: 15.0),
-                      // TextFormField(
-                      //   validator: (value) {
-                      //     if (value == null || value.isEmpty) {
-                      //       return 'Please enter the password';
-                      //     } else if (value.length <= 6) {
-                      //       return 'Password must be greator than 6 digits';
-                      //     }
-                      //   },
-                      //   obscureText: true,
-                      //   decoration: InputDecoration(
-                      //     fillColor: Color.fromRGBO(243, 242, 245, 0.471),
-                      //     filled: true,
-                      //     labelText: 'Password',
-                      //     hintText: 'Capital & Small Letters, Digits, Symbols',
-                      //     border: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(10.0),
-                      //       borderSide: const BorderSide(
-                      //         color: Colors.white,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
+
                       SizedBox(height: 30.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -165,7 +125,11 @@ class _myRegisterState extends State<myRegister> {
                               ),
                               onPressed: () {
 
-                             //   authController.();
+                                if(authController.check()){
+                                authController.loginUser();}
+                                else{
+                                  Get.snackbar("Error", "Please fill all fields",snackPosition:SnackPosition.BOTTOM);
+                                }
                               },
                               child: Row(
                                 mainAxisAlignment:
@@ -182,29 +146,7 @@ class _myRegisterState extends State<myRegister> {
                         ],
                       ),
                       SizedBox(height: 30.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, 'login');
-                            },
-                            child: Text(
-                              'Login',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, 'forgot');
-                            },
-                            child: Text(
-                              'Forgot password?',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                        ],
-                      ),
+
                     ],
                   ),
                 ),

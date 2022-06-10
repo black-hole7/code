@@ -1,11 +1,15 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../home.dart';
+import '../order.dart';
 
 class AuthController extends GetxController{
 
@@ -18,7 +22,7 @@ class AuthController extends GetxController{
 
  bool check(){
 
-  if(fullName.text.isNotEmpty && phoneNumber.text.length == 10 && nationalNumber.text.length>=10 ){
+  if(fullName.text.isNotEmpty && phoneNumber.text.length <=9 && nationalNumber.text.length>=10 ){
 
    return true;
 
@@ -94,19 +98,31 @@ class AuthController extends GetxController{
 
        //So that he can enter the Home screen
        // and not return to the login screen if he has already logged in
-       _sharedPreferences.setString('islogin', 'done');
+      // _sharedPreferences.setString('uid', '${user.uid}');
 
        //The user's phone number and name are saved
        // in order to store them when performing any operation within the app
-       print('the phoneNumber = ${user.phoneNumber}');
-       _sharedPreferences.setString('phone' , '${user.phoneNumber}');
+      // print('the phoneNumber = ${user.phoneNumber}');
+       _sharedPreferences.setBool('reg' , true);
       // _sharedPreferences.setString('name' , '${AuthUtility.nameList[AuthUtility.phoneList.indexWhere((v)=>v==user.phoneNumber,)]}');
 
-       print('${_sharedPreferences.getString('islogin')}');
+     //  print('${_sharedPreferences.getString('islogin')}');
 
+
+      await  FirebaseFirestore.instance.collection("users").doc(user.uid).set({
+         "id":user.uid,
+         "name":fullName.text,
+         "national_number":nationalNumber.text,
+         "phone_number" : phoneNumber.text
+        });
+
+         Get.off(()=>myOrder(isReg: !_sharedPreferences.getBool('reg')!,));
        //route to Home screen without returning
-       Get.offAll(Home());
-
+       //Get.reset();
+       // SystemNavigator.pop();
+       // Get.reset();
+       // Get.off(Home());
+       //  Get.offAll(()=>Home());
       }else{
        print("Error");
       }
@@ -117,6 +133,8 @@ class AuthController extends GetxController{
   );
 
  }
+
+
 
 
 // Future register()async{
