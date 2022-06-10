@@ -259,6 +259,7 @@ class OrderController extends GetxController{
 
               sendOrder();
               Get.back();
+              //555
               Get.back();
               await  FirebaseAuth.instance.signOut();
             }else{
