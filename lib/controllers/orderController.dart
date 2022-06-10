@@ -9,6 +9,7 @@ import 'package:gim/controllers/authController.dart';
 import 'package:gim/controllers/homeController.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
+import 'package:mac_address/mac_address.dart';
 import 'package:uuid/uuid.dart';
 
 class OrderController extends GetxController{
@@ -55,8 +56,23 @@ class OrderController extends GetxController{
 
     count?.value = imagefiles.length;
 
-    savePhoneNumber();
 
+    savePhoneNumber();
+    getMac();
+
+      locationService();
+     requestPermission();
+
+
+
+  }
+
+  String mac = "";
+
+  getMac()async{
+    mac =   await GetMac.macAddress;
+
+    print(await GetMac.macAddress);
   }
 
   savePhoneNumber()async{
@@ -155,8 +171,7 @@ class OrderController extends GetxController{
    sendOrder()async {
 
 
-     await  locationService();
-     await requestPermission();
+
 
 
      _locationData = await location.getLocation();
@@ -185,12 +200,17 @@ class OrderController extends GetxController{
          "department": selectedValue2,
          "images" : images,
          "note": note.text,
-         "location" :_locationData,
-         "mac_address" :""
-       }).then((value){Get.snackbar("Successfull", "Your Order Sent !",snackPosition: SnackPosition.BOTTOM);
+         "location" :{"lat":_locationData.latitude, "long":_locationData.longitude},
+         "mac_address" :mac,
+         "date": DateTime.now()
+       }).then((value)async{
        Get.back();
        //555
-       Get.back();});
+       Get.back();
+
+       Get.snackbar("Successfull", "Your Order Sent !",snackPosition: SnackPosition.BOTTOM);
+
+       });
 
      }else{
 

@@ -38,6 +38,8 @@ class HomeController extends GetxController{
 
 
 
+
+
   isReg()async{
 
     SharedPreferences preferences = await SharedPreferences.getInstance();
