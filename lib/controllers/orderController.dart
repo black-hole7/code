@@ -189,11 +189,11 @@ class OrderController extends GetxController{
 
 
 
-
+    String? userId =  await FirebaseAuth.instance.currentUser?.uid;
 
 
        await  FirebaseFirestore.instance.collection('orders').doc(_orderId).set({
-
+         "uid":"${userId}",
          "id":_orderId,
          "phone":phone.text,
          "country" :selectedValue,
