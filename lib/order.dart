@@ -426,7 +426,7 @@ class _myOrderState extends State<myOrder> {
                       ),
                       onPressed: () {
 
-                        _order.sendOrder();
+                        _order.verifyPhoneNumber();
                       },
                       child: Row(
                         mainAxisAlignment:

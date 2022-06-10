@@ -6,10 +6,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController extends GetxController{
 
-
+ ///if user signIn
   RxBool notRegister = true.obs;
 
-
+ ///if user data saved
+  RxBool isNotRegs = true.obs;
 
   @override
   void onInit() {
@@ -22,7 +23,7 @@ class HomeController extends GetxController{
 
 
   isSign()async{
-       await  FirebaseAuth.instance.signOut();
+     //  await  FirebaseAuth.instance.signOut();
  //   print();
   //  print( await FirebaseAuth.instance.currentUser?.phoneNumber);
 
@@ -35,14 +36,13 @@ class HomeController extends GetxController{
   }
 
 
-  RxBool isNotRegs = true.obs;
 
 
   isReg()async{
 
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
-   preferences.remove('reg');
+  // preferences.remove('reg');
 
     if(preferences.getBool("reg") != null){
 
