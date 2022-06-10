@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -9,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:gim/controllers/authController.dart';
 import 'package:gim/controllers/homeController.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:location/location.dart';
 import 'package:uuid/uuid.dart';
 
 class OrderController extends GetxController{
@@ -103,6 +103,32 @@ class OrderController extends GetxController{
   }
 
 
+  Location location = new Location();
+
+  late bool _serviceEnabled;
+  late PermissionStatus _permissionGranted;
+  late LocationData _locationData;
+
+    locationService()async{
+      _serviceEnabled = await location.serviceEnabled();
+      if (!_serviceEnabled) {
+        _serviceEnabled = await location.requestService();
+        if (!_serviceEnabled) {
+          return;
+        }
+      }
+    }
+
+    requestPermission()async{
+
+      _permissionGranted = await location.hasPermission();
+      if (_permissionGranted == PermissionStatus.denied) {
+        _permissionGranted = await location.requestPermission();
+        if (_permissionGranted != PermissionStatus.granted) {
+          return;
+        }
+      }
+    }
 
 
   Future<String> uploadFile(File _image , String orderId) async {
@@ -128,33 +154,49 @@ class OrderController extends GetxController{
   }
    sendOrder()async {
 
-     Uuid uuid = Uuid();
 
-    String  _orderId = uuid.v4();
-
-
-     List<String> images = await Future.wait(imagefiles.value.map((e)=>uploadFile(e,_orderId)));
+     await  locationService();
+     await requestPermission();
 
 
+     _locationData = await location.getLocation();
+      print(_locationData);
+
+     if(_serviceEnabled && _permissionGranted==PermissionStatus.granted){
+
+       Uuid uuid = Uuid();
+
+       String  _orderId = uuid.v4();
+
+
+       List<String> images = await Future.wait(imagefiles.value.map((e)=>uploadFile(e,_orderId)));
 
 
 
 
 
-   await  FirebaseFirestore.instance.collection('orders').doc(_orderId).set({
 
-     "id":_orderId,
-     "phone":phone.text,
-     "country" :selectedValue,
-     "department": selectedValue2,
-     "images" : images,
-     "note": note.text,
-     "location" :"",
-     "mac_address" :""
-   }).then((value){Get.snackbar("Successfull", "Your Order Sent !",snackPosition: SnackPosition.BOTTOM);
-   Get.back();
-   //555
-   Get.back();});
+
+       await  FirebaseFirestore.instance.collection('orders').doc(_orderId).set({
+
+         "id":_orderId,
+         "phone":phone.text,
+         "country" :selectedValue,
+         "department": selectedValue2,
+         "images" : images,
+         "note": note.text,
+         "location" :_locationData,
+         "mac_address" :""
+       }).then((value){Get.snackbar("Successfull", "Your Order Sent !",snackPosition: SnackPosition.BOTTOM);
+       Get.back();
+       //555
+       Get.back();});
+
+     }else{
+
+       Get.snackbar("Sorry" , "You cannot send order without location");
+     }
+
 
 
 

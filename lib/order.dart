@@ -8,8 +8,6 @@ import 'package:gim/controllers/orderController.dart';
 import 'dart:ffi';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter/widgets.dart';
-import 'package:camera/camera.dart';
 
 class myOrder extends StatefulWidget {
 
