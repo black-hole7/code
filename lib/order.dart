@@ -318,23 +318,27 @@ class _myOrderState extends State<myOrder> {
                                 height: 150.0,
                                 width:
                                     MediaQuery.of(context).size.width / 1.22, //322,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: _order.imagefiles.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return GestureDetector(
-                                        onTap: (() {
-                                          setState(() {
-                                            _order.imagefiles.removeAt(index);
-                                            _order.count = (_order.count! - 1);
-                                            _order.checkFull(widget.isReg);
-                                          });
+                                child: Obx(
+                                   () {
+                                    return ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: _order.imagefiles.length,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        return GestureDetector(
+                                            onTap: (() {
+                                              setState(() {
+                                                _order.imagefiles.removeAt(index);
+                                                _order.count = (_order.count! - 1);
+                                                _order.checkFull(widget.isReg);
+                                              });
 
 
-                                        }),
-                                        child: Image.file(
-                                            File(_order.imagefiles![index].path)));
-                                  },
+                                            }),
+                                            child: Image.file(
+                                                File(_order.imagefiles![index].path)));
+                                      },
+                                    );
+                                  }
                                 )),
                           ),
                           SizedBox(height: 15.0),
@@ -353,9 +357,7 @@ class _myOrderState extends State<myOrder> {
 
                                       _order.openImages(ImageSource.gallery);
                                       _order.checkFull(widget.isReg);
-                                      setState(() {
 
-                                      });
 
                                   } else {
                                     Fluttertoast.showToast(
@@ -400,12 +402,7 @@ class _myOrderState extends State<myOrder> {
                             ],
                           ),
                           SizedBox(height: 60.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
 
-                            ],
-                          ),
                         ],
                       ),
                     ),

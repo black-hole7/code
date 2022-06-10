@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -83,14 +82,21 @@ class AuthController extends GetxController{
     // color: Colors.blue,
      onPressed: () async{
 
+       try{
       final code = codeController.text.trim();
 
-      //send SMS with code on user's phone
-      AuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: code);
 
-      UserCredential result = await auth.signInWithCredential(credential);
+       //send SMS with code on user's phone
+       AuthCredential credential = PhoneAuthProvider.credential(
+           verificationId: verificationId, smsCode: code);
 
-      User? user = result.user;
+       UserCredential result = await auth.signInWithCredential(credential);
+       User? user = result.user;
+
+
+
+
+
       SharedPreferences _sharedPreferences =  await SharedPreferences.getInstance();
 
       if(user != null){
@@ -126,6 +132,10 @@ class AuthController extends GetxController{
       }else{
        print("Error");
       }
+
+   }catch(e){
+   print(e);
+   }
      },
     )
    ],

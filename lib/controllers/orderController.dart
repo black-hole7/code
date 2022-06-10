@@ -20,7 +20,7 @@ class OrderController extends GetxController{
  // List<CameraDescription>? cameras; //list out the camera available
  // CameraController? controller; //controllers for camera
  // XFile? image; //for captured image
-  int? count;
+  RxInt? count =0.obs;
   TextEditingController phone = TextEditingController();
   TextEditingController note = TextEditingController();
 
@@ -53,7 +53,7 @@ class OrderController extends GetxController{
     // TODO: implement onInit
     super.onInit();
 
-    count = imagefiles.length;
+    count?.value = imagefiles.length;
 
     savePhoneNumber();
 
@@ -73,7 +73,7 @@ class OrderController extends GetxController{
 
       if (pickedfiles != null) {
         imagefiles.add(File(pickedfiles.path));
-        count = imagefiles.length;
+        count?.value = imagefiles.length;
         update();
       } else {
         print("No image is selected.");
@@ -84,23 +84,7 @@ class OrderController extends GetxController{
   }
 
 
-  loadCamera() async {
-    try {
-      var pickedfiles = await imgpicker.pickImage(source: ImageSource.camera);
-      //you can use ImageCourse.camera for Camera capture
-      //if (ListView.builder(itemCount: imagefiles.length)==3)
-      if (pickedfiles != null) {
-        imagefiles.add(pickedfiles);
-        count = imagefiles?.length;
-        update();
-      } else {
-        print("No image is selected.");
-      }
-    } catch (e) {
-      print("error while picking file.");
-    }
 
-  }
 
   RxBool isFull = false.obs;
 
@@ -167,7 +151,10 @@ class OrderController extends GetxController{
      "note": note.text,
      "location" :"",
      "mac_address" :""
-   }).then((value) => Get.snackbar("Successfull", "Your Order Sent !",snackPosition: SnackPosition.BOTTOM));
+   }).then((value){Get.snackbar("Successfull", "Your Order Sent !",snackPosition: SnackPosition.BOTTOM);
+   Get.back();
+   //555
+   Get.back();});
 
 
 
