@@ -44,7 +44,7 @@ class _myHomeState extends State<Home> {
                       top: 30.0,
                     ),
                     child: Text(
-                      'Greater Irbid\nMunicipality',
+                      'Municipality'.tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.white,
@@ -100,7 +100,7 @@ class _myHomeState extends State<Home> {
                                         //crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           Text(
-                                            'New Registration ',
+                                            'Registration'.tr,
                                             style: TextStyle(fontSize: 20.0),
                                           ),
                                           Icon(
@@ -119,47 +119,14 @@ class _myHomeState extends State<Home> {
 
 
 
-                          // ElevatedButton(
-                          //     style: ElevatedButton.styleFrom(
-                          //       maximumSize: Size(
-                          //           MediaQuery.of(context).size.width / 3,
-                          //           50.0), //130
-                          //       minimumSize: Size(
-                          //           MediaQuery.of(context).size.width / 3,
-                          //           50.0), //130
-                          //       primary: Color.fromARGB(255, 81, 13, 177),
-                          //       shape: StadiumBorder(),
-                          //     ),
-                          //     onPressed: () {
-                          //       Navigator.pushNamed(context, 'login');
-                          //     },
-                          //     child: Row(
-                          //       mainAxisAlignment:
-                          //           MainAxisAlignment.spaceBetween,
-                          //       //crossAxisAlignment: CrossAxisAlignment.center,
-                          //       children: [
-                          //         Text(
-                          //           'Login',
-                          //           style: TextStyle(fontSize: 20.0),
-                          //         ),
-                          //         Icon(
-                          //           Icons.login,
-                          //           color: Color.fromARGB(255, 124, 255, 189),
-                          //         ),
-                          //       ],
-                          //     )),
+
                           SizedBox(height: 50.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    // maximumSize: Size(
-                                    //     MediaQuery.of(context).size.width / 1.22,
-                                    //     70.0),
-                                    // minimumSize: Size(
-                                    //     MediaQuery.of(context).size.width / 1.22,
-                                    //     70.0),
+
                                     primary: Color.fromARGB(161, 214, 4, 4),
                                     shape: StadiumBorder(),
                                   ),
@@ -173,7 +140,7 @@ class _myHomeState extends State<Home> {
                                       //crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'Apply Your Report  ',
+                                          'report'.tr,
                                           style: TextStyle(fontSize: 25.0),
                                         ),
                                         Icon(
@@ -197,7 +164,7 @@ class _myHomeState extends State<Home> {
                                   showAlertDialog(context);
                                 },
                                 child: Text(
-                                  'Instructions',
+                                  'Instructions'.tr,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 23.0,
@@ -211,7 +178,7 @@ class _myHomeState extends State<Home> {
                                   showAlertDialog2(context);
                                 },
                                 child: Text(
-                                  'Policies',
+                                  'Policies'.tr,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 23.0,
@@ -220,6 +187,14 @@ class _myHomeState extends State<Home> {
                                 ),
                               ),
                             ],
+                          ),
+
+                          IconButton(
+                              icon: Icon(Icons.language,color: Colors.red,),
+                              onPressed: () {
+
+                                controller. changeLang();
+                              }
                           ),
                         ],
                       )

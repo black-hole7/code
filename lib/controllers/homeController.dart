@@ -1,5 +1,6 @@
 
  import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,6 +17,7 @@ class HomeController extends GetxController{
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    initLang();
     isSign();
     isReg();
   }
@@ -54,4 +56,42 @@ class HomeController extends GetxController{
       isNotRegs.value = true;
     }
   }
+
+ late Rx<Locale> locale ;
+
+  initLang()async{
+
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    locale  = Locale('${pref.getString('lang_code')}', '${pref.getString('country_code')}').obs;
+
+  }
+
+
+  changeLang()async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    if (locale.value.languageCode == 'ar') {
+      pref.setString('lang_code', 'en');
+      pref.setString('country_code', 'US');
+      locale.value = Locale('${pref.getString('lang_code')}',
+          '${pref.getString('country_code')}');
+
+      Get.updateLocale(locale.value);
+
+      //  update();
+    } else {
+      pref.setString('lang_code', 'ar');
+      pref.setString('country_code', 'DZ');
+      locale.value = Locale('${pref.getString('lang_code')}',
+          '${pref.getString('country_code')}');
+
+      Get.updateLocale(locale.value);
+
+      //update();
+      // Get.updateLocale(locale);
+      // locale.value = Locale('ar', 'DZ');
+    }
+  }
+
 }
