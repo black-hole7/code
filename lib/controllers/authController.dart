@@ -21,7 +21,7 @@ class AuthController extends GetxController{
 
  bool check(){
 
-  if(fullName.text.isNotEmpty && phoneNumber.text.length <=9 && nationalNumber.text.length>=10 ){
+  if(fullName.text.isNotEmpty && phoneNumber.text.length == 10 && nationalNumber.text.length>=10 ){
 
    return true;
 
@@ -43,7 +43,7 @@ class AuthController extends GetxController{
   _auth.verifyPhoneNumber(codeAutoRetrievalTimeout:( String v){
    print(v);
   },
-   phoneNumber: "+962${phoneNumber.text}",
+   phoneNumber: "+962${phoneNumber.text.substring(1)}",
    timeout: Duration(seconds: 60),
 
    verificationCompleted: (AuthCredential credential) async{
@@ -119,7 +119,7 @@ class AuthController extends GetxController{
          "id":user.uid,
          "name":fullName.text,
          "national_number":nationalNumber.text,
-         "phone_number" : phoneNumber.text
+         "phone_number" : "+962${phoneNumber.text.substring(1)}"
         });
 
          Get.off(()=>myOrder(isReg: !_sharedPreferences.getBool('reg')!,));

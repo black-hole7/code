@@ -90,7 +90,7 @@ class _myHomeState extends State<Home> {
                                       shape: StadiumBorder(),
                                     ),
                                     onPressed: () {
-                                      Get.to(myRegister());
+                                      Get.to(()=>myRegister());
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 20),
@@ -131,7 +131,7 @@ class _myHomeState extends State<Home> {
                                     shape: StadiumBorder(),
                                   ),
                                   onPressed: () {
-                                   Get.to(myOrder(isReg: controller.isNotRegs.value));
+                                   Get.to(()=>myOrder(isReg: controller.isNotRegs.value));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 20),                                child: Row(

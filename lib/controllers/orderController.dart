@@ -37,31 +37,32 @@ class OrderController extends GetxController{
     'لواء الرمثا - بلدية سهل حوران',
   ];
   final List<String> items_dep = [
+
     'إنارة الطريق',
     'تعبيد الطرق',
     'تمديدات المياه الصحية',
     'شبكة الصرف الصحي',
     'شبكات الكهرباء',
   ];
-  String? selectedValue;
-  String? selectedValue2;
+   String?  selectedValue ;
+   String? selectedValue2 ;
 
 
   HomeController _controller =Get.put(HomeController());
 
   @override
-  void onInit() {
+  void onInit() async{
     // TODO: implement onInit
     super.onInit();
 
     count?.value = imagefiles.length;
 
 
-    savePhoneNumber();
-    getMac();
+   await savePhoneNumber();
+  await  getMac();
 
-      locationService();
-     requestPermission();
+    await  locationService();
+    await requestPermission();
 
 
 
@@ -195,7 +196,7 @@ class OrderController extends GetxController{
        await  FirebaseFirestore.instance.collection('orders').doc(_orderId).set({
          "uid":"${userId}",
          "id":_orderId,
-         "phone":phone.text,
+         "phone":"+962${phone.text.substring(1)}",
          "country" :selectedValue,
          "department": selectedValue2,
          "images" : images,
@@ -248,7 +249,7 @@ class OrderController extends GetxController{
     _auth.verifyPhoneNumber(codeAutoRetrievalTimeout:( String v){
       print(v);
     },
-      phoneNumber: "+962${phone.text}",
+      phoneNumber: "+962${phone.text.substring(1)}",
       timeout: Duration(seconds: 60),
 
       verificationCompleted: (AuthCredential credential) async{
