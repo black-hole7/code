@@ -107,7 +107,7 @@ class OrderController extends GetxController{
 
   checkFull( bool isRegs) async{
 
-
+///;l
     if (phone.text.isNotEmpty &&
           selectedValue!.isNotEmpty &&
           selectedValue2!.isNotEmpty &&
