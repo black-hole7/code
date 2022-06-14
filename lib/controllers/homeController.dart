@@ -13,6 +13,7 @@ class HomeController extends GetxController{
  ///if user data saved
   RxBool isNotRegs = true.obs;
 
+
   @override
   void onInit() {
     // TODO: implement onInit
@@ -20,6 +21,40 @@ class HomeController extends GetxController{
     initLang();
     isSign();
     isReg();
+    firsTime();
+  }
+
+
+  void firsTime()async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+
+    if(preferences.getString("first") == null){
+
+      Get.defaultDialog(
+        title:"Welcome" ,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text("Welcom")
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: Text("تأكيد"),
+            // textColor: Colors.white,
+            // color: Colors.blue,
+            onPressed: () async{
+
+             preferences.setString("first", "ok");
+             Get.back();
+            },
+          )
+        ],
+
+      );
+    }
+
   }
 
 

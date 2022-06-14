@@ -119,7 +119,6 @@ class OrderController extends GetxController{
       update();
   }
 
-
   Location location = new Location();
 
   late bool _serviceEnabled;
